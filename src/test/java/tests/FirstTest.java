@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class FirstTest {
@@ -19,7 +19,12 @@ public class FirstTest {
         driver.get("http://blazedemo.com");
         WebElement FindFlights =  driver.findElement(By.cssSelector("input.btn.btn-primary")); //input.btn.btn-primary //div.container
         FindFlights.click();
-        assertTrue(driver.findElement(By.cssSelector("body")).isDisplayed());
+//      assertTrue(driver.findElement(By.cssSelector("body")).isDisplayed());
+        assertEquals("http://blazedemo.com/reserve.php", driver.getCurrentUrl());
+//      driver.quit();
     }
 
 }
+
+
+
