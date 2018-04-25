@@ -1,8 +1,8 @@
 package tests;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,10 +18,12 @@ public class BaseTest {
 
     @BeforeClass
     public void beforeClass() {
-        System.setProperty("webdriver.chrome.driver", "D:\\AutoQA\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "D:\\AutoQA\\chromedriver.exe");
+        //ChromeOptions option = new ChromeOptions();
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
 
-        ChromeOptions option = new ChromeOptions();
-        driver = new ChromeDriver(option);
+
         driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
         webDriverWait = new WebDriverWait(driver, timeout);
         driver.get("http://blazedemo.com");
@@ -29,6 +31,7 @@ public class BaseTest {
 
     @AfterClass
     public void afterClass() {
+
         driver.quit();
     }
 

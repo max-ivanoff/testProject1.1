@@ -28,12 +28,9 @@ public class SecondTest extends BaseTest {
     private String valueAmount = "Amount";
 
 
-
-
     @Test
     public void test() {
 
-        WebElement FindFlights = driver.findElement(By.cssSelector("div > input"));
 
         WebElement departureCity = driver.findElement(By.cssSelector("select:nth-child(1) > option:nth-child(1)"));
         String valueDepartureCity = departureCity.getText();
@@ -41,7 +38,9 @@ public class SecondTest extends BaseTest {
         WebElement destinationCity = driver.findElement(By.cssSelector("select:nth-child(4) > option:nth-child(1)"));
         String valueDestinationCity = destinationCity.getText();
 
-        FindFlights.click();
+        //WebElement FindFlights = driver.findElement(By.cssSelector("div > input"));
+        //FindFlights.click();
+        driver.findElement(By.cssSelector("div > input")).click();
 
         assertEquals("http://blazedemo.com/reserve.php", driver.getCurrentUrl());
 
@@ -54,22 +53,24 @@ public class SecondTest extends BaseTest {
                 "Error:  arrives is incorrect.");
 
 
-        WebElement Flight = driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)"));
-        String valueFlight = Flight.getText();
+        String valueFlight = driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)")).getText();
+        //String valueFlight = Flight.getText();
 
-        WebElement Airline = driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(4)"));
-        String valueAirline = Airline.getText();
+        String valueAirline = driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(4)")).getText();
+        //String valueAirline = Airline.getText();
 
         String Price = driver.findElement(By.cssSelector(" tr:nth-child(4) > td:nth-child(7)")).getText();
         float valuePrice = Float.parseFloat(Price.replace("$", ""));
 
-        WebElement chooseThisFlight = driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(2)"));
-        chooseThisFlight.click();
+        //WebElement chooseThisFlight = driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(2)"));
+        //chooseThisFlight.click();
+        driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(2)")).click();
 
 
         WebElement flightNumber = driver.findElement(By.cssSelector("p:nth-child(3)"));
         WebElement  airline= driver.findElement(By.cssSelector("p:nth-child(2)"));
         WebElement  price = driver.findElement(By.cssSelector("p:nth-child(4)"));
+
         assertEquals("Flight Number: " + valueFlight, flightNumber.getText(),
                 "Error: flight number is incorrect.");
         assertEquals("Airline: " + valueAirline, airline.getText(), "Error:  airline is incorrect.");
@@ -92,23 +93,28 @@ public class SecondTest extends BaseTest {
         creditCardYear.sendKeys(cardYear);
         driver.findElement(By.cssSelector("#nameOnCard")).sendKeys(cardName);
 
-        WebElement purchaseFlight = driver.findElement(By.cssSelector("div:nth-child(12) > div > input"));
-        purchaseFlight.click();
+        String pTotalCost = driver.findElement(By.cssSelector("p:nth-child(7) > em")).getText();
+        String purTaxes = driver.findElement(By.cssSelector("p:nth-child(5)")).getText();
+        String purPrice = driver.findElement(By.cssSelector("p:nth-child(4)")).getText();
+        Double pdTaxes = Double.parseDouble(purTaxes.replace("Arbitrary Fees and Taxes:", ""));
+        Double pdPrice = Double.parseDouble(purPrice.replace("Price:", ""));
+        assertEquals(String.valueOf(pdTaxes + pdPrice),pTotalCost);
+
+        driver.findElement(By.cssSelector("div:nth-child(12) > div > input")).click();
 
 
         webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h1")));
 
-        WebElement  purchaseID = driver.findElement(By.cssSelector("tr:nth-child(1) > td:nth-child(1)"));
-        WebElement purchaseStatus = driver.findElement(By.cssSelector("tr:nth-child(2) > td:nth-child(1)"));
-        WebElement purchaseAmount = driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(1)"));
-
-        assertEquals(valueId, purchaseID.getText(), "Error:  ID is incorrect.");
-        assertEquals(valueStatus, purchaseStatus.getText(), "Error:  status is incorrect.");
-        assertEquals(valueAmount, purchaseAmount.getText(), "Error:  amount is incorrect.");
+            assertEquals(valueId, driver.findElement(By.cssSelector("tr:nth-child(1) > td:nth-child(1)")).getText(),
+                "Error:  ID not found on page.");
+        assertEquals(valueStatus, driver.findElement(By.cssSelector("tr:nth-child(2) > td:nth-child(1)")).getText(),
+                "Error:  Status not found on page.");
+        assertEquals(valueAmount, driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(1)")).getText(),
+                "Error:  Amount not found on page.");
 
         WebElement purchaseCardNum = driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(2)"));
         String quartile4 = purchaseCardNum.getText().replace("x", "");
-        assertTrue(cardNumber.contains(quartile4), "Error: card number is incorrect.");
+        assertTrue(cardNumber.contains(quartile4), "Error: the fourth quartile does not match.");
 
     }
 }
