@@ -1,4 +1,3 @@
 org/openqa/selenium/chrome
-logs/
-.idea/
+.idea
 testProject1.1.iml
