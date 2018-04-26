@@ -14,7 +14,6 @@ import static org.testng.Assert.assertTrue;
 
 public class SecondTest extends BaseTest {
 
-
     private String cardName = "Matthew McConaughey";
     private String address = " 8 Beacon St.";
     private String city = "Washington";
